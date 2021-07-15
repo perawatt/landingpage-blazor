@@ -1,0 +1,49 @@
+@page "/address"
+
+<EditForm Model="@AddInfo">
+    <div class="col bg-white py-2 mb-1">
+
+        <h6 class="font-weight-bold pb-1">กรุณาระบุชื่อ ที่อยู่ และเบอร์ติดต่อ</h6>
+        <br>
+        <h6 class="pb-2 font-weight-bold">ชื่อ - นามสกุล</h6>
+        <div class="row">
+            <div class="col">
+                <input type="text" class="form-control" placeholder="ระบุชื่อบุคคลที่รับของ" @bind-value="AddInfo.Name">
+            </div>
+        </div>
+        <br>
+
+        <h6 class="pb-2 font-weight-bold">ที่อยู่</h6>
+        <div class="row">
+            <div class="col">
+                <input type="text" class="form-control" placeholder="บ้านเลขที่, หมู่, ตึด, ซอย, ถนน" @bind-value="AddInfo.Add">
+                <input type="text" class="form-control" placeholder="ตำบล" @bind-value="AddInfo.Subdistrict">
+                <input type="text" class="form-control" placeholder="อำเภอ" @bind-value="AddInfo.District">
+                <input type="text" class="form-control" placeholder="จังหวัด" @bind-value="AddInfo.Provice">
+                <input type="text" class="form-control" placeholder="รหัสไปรษณีย์" @bind-value="AddInfo.ZipCode">
+            </div>
+        </div>
+        <br>
+
+        <h6 class="pb-2 font-weight-bold">เบอร์ติดต่อ</h6>
+        <div class="row">
+            <div class="col">
+                <input type="tel" class="form-control" placeholder="เบอร์ติดต่อ" @bind-value="AddInfo.Tel">
+            </div>
+        </div>
+        <br>
+
+        <h6 class="pb-2 font-weight-bold">อีเมล (ใช้รับบิล)</h6>
+        <div class="row">
+            <div class="col">
+                <input type="text" class="form-control" placeholder="อีเมล" @bind-value="AddInfo.Email">
+            </div>
+        </div>
+    </div>
+    <ConfirmButton Title="ตกลง" />
+</EditForm>
+
+@code {
+    private AddressInfo AddInfo = new();
+
+}
