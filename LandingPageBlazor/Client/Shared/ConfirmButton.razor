@@ -1,0 +1,15 @@
+﻿<div class="p-2 bg-white">
+    <button type="button" class="btn btn-danger btn-block rounded" @onclick="Submit">@Title</button>
+</div>
+@code {
+    [Parameter]
+    public string Title { get; set; } = "ตกลง";
+
+    [Parameter]
+    public string SubmitAction { get; set; }
+
+    private void Submit()
+    {
+        //TODO: implement
+    }
+}

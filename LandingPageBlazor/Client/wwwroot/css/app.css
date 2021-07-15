@@ -1,7 +1,12 @@
 ﻿@import url('open-iconic/font/css/open-iconic-bootstrap.min.css');
 
 html, body {
+    background-color: #E7E6EC;
     font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+}
+
+.h1, .h2, .h3, .h4, .h5, .h6, h1, h2, h3, h4, h5, h6 {
+    margin-bottom: unset;
 }
 
 a, .btn-link {
@@ -12,6 +17,24 @@ a, .btn-link {
     color: #fff;
     background-color: #1b6ec2;
     border-color: #1861ac;
+}
+
+.btn-danger {
+    color: #fff;
+    background-color: #ED1C24;
+    border-color: #ED1C24;
+}
+
+.text-danger {
+    color: #ED1C24 !important;
+}
+
+.text-muted, .text-light {
+    color: #8C8C9D !important;
+}
+
+.bg-light {
+    background-color: #8C8C9D;
 }
 
 .content {
