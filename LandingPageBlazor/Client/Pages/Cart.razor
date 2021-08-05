@@ -80,7 +80,7 @@
     </div>
 </div>
 
-@if (AddInfo.Add == null)
+@if (AddData.Add == null)
 {
     <div class="col bg-white py-2 mb-1">
         <h6 class="pb-2 font-weight-bold">ชื่อและที่อยู่เบอร์ติดต่อ</h6>
@@ -102,21 +102,18 @@ else
         <div class="row" @onclick="ModalShow">
             <div class="col">
                 <small class="text-secondary">ชื่อ - นามสกุล</small> <br>
-                <small class="text-secondary">@AddInfo.Name</small> <br>
+                <small class="text-secondary">@AddData.Name</small> <br>
                 <small class="text-secondary">ที่อยู่</small> <br>
-                <small class="text-secondary">@AddInfo.Add</small> <br>
-                <small class="text-secondary">@AddInfo.Subdistrict</small> <br>
-                <small class="text-secondary">@AddInfo.District</small> <br>
-                <small class="text-secondary">@AddInfo.Provice</small> <br>
-                <small class="text-secondary">@AddInfo.ZipCode</small> <br>
+                <small class="text-secondary">@AddData.Add</small> <br>
+                <small class="text-secondary">@AddData.Subdistrict</small> <br>
+                <small class="text-secondary">@AddData.District</small> <br>
+                <small class="text-secondary">@AddData.Provice</small> <br>
+                <small class="text-secondary">@AddData.ZipCode</small> <br>
                 <small class="text-secondary">เบอร์ติดต่อ</small> <br>
-                <small class="text-secondary">@AddInfo.Tel</small> <br>
+                <small class="text-secondary">@AddData.Tel</small> <br>
                 <small class="text-secondary">อีเมล (ใช้รับบิล)</small> <br>
-                <small class="text-secondary">@AddInfo.Email</small>
+                <small class="text-secondary">@AddData.Email</small>
 
-            </div>
-            <div class="col text-right">
-                <span class="oi oi-chevron-right text-secondary"></span>
             </div>
         </div>
     </div>
@@ -183,27 +180,12 @@ else
     <div class="modal fade show" id="myModal" style="display:block" aria-modal="true" role="dialog">
         <div class="modal-dialog">
             <div class="modal-content">
-
-                @* <!-- Modal Header -->
-                    <div class="modal-header">
-                    <h4 class="modal-title">Confirm action</h4>
-                    <button type="button" class="close" @onclick="@ModalCancel">&times;</button>
-                    </div>
-
-                    <!-- Modal body -->
-                    <div class="modal-body">
-                    <p>This is the modal content!</p>
-                    </div>
-
-                    <!-- Modal footer -->
-                    <div class="modal-footer">
-                    <button type="button" class="btn" @onclick="@ModalCancel">Cancel</button>
-                    <button type="button" class="btn btn-danger" @onclick=@ModalOk>Delete</button>
-                    </div> *@
-                <EditForm Model="@AddInfo">
+                <EditForm EditContext="@editContext" OnValidSubmit="HandleValidSubmit">
+                    <DataAnnotationsValidator />
                     <div class="col bg-white mb-1 py-2">
                         <h6 class="font-weight-bold pb-3">กรุณาระบุชื่อ ที่อยู่ และเบอร์ติดต่อ</h6>
                         <h6 class="pb-1 font-weight-bold">ชื่อ - นามสกุล</h6>
+                        <ValidationMessage For="@(() => AddInfo.Name)" />
                         <div class="row mb-1">
                             <div class="col">
                                 <input type="text" class="form-control rounded-0 border-0 px-0"
@@ -211,6 +193,7 @@ else
                             </div>
                         </div>
                         <h6 class="pb-1 font-weight-bold">ที่อยู่</h6>
+                        <ValidationMessage For="@(() => AddInfo.Add)" />
                         <div class="row mb-1 pb-1 border-bottom">
                             <div class="col">
                                 <input type="text" class="form-control rounded-0 border-0 px-0"
@@ -221,27 +204,31 @@ else
                                 @bind-value="AddInfo.District">
                                 <input type="text" class="form-control rounded-0 border-0 px-0" placeholder="จังหวัด"
                                 @bind-value="AddInfo.Provice">
-                                <input type="text" class="form-control rounded-0 border-0 px-0" placeholder="รหัสไปรษณีย์"
+                                <input type="number" class="form-control rounded-0 border-0 px-0" placeholder="รหัสไปรษณีย์"
                                 @bind-value="AddInfo.ZipCode">
                             </div>
                         </div>
                         <h6 class="pb-1 font-weight-bold">เบอร์ติดต่อ</h6>
+                        <ValidationMessage For="@(() => AddInfo.Tel)" />
                         <div class="row mb-1 pb-1 border-bottom">
                             <div class="col">
                                 <input type="tel" class="form-control rounded-0 border-0 px-0" placeholder="เบอร์ติดต่อ"
                                 @bind-value="AddInfo.Tel">
                             </div>
+
                         </div>
                         <h6 class="pb-1 font-weight-bold">อีเมล (ใช้รับบิล)</h6>
+                        <ValidationMessage For="@(() => AddInfo.Email)" />
                         <div class="row mb-1">
                             <div class="col">
                                 <input type="text" class="form-control rounded-0 border-0 px-0" placeholder="อีเมล"
                                 @bind-value="AddInfo.Email">
                             </div>
+
                         </div>
                     </div>
                     <div class="p-2 bg-white">
-                        <button type="button" class="btn btn-danger btn-block rounded" @onclick="@ModalCancel">ตกลง</button>
+                        <button class="btn btn-danger btn-block rounded" type="submit" Raised="true">ตกลง</button>
                     </div>
                 </EditForm>
             </div>
@@ -263,7 +250,10 @@ else
 
     protected override void OnInitialized()
     {
-        Address = AddInfo.Add ?? "ยังไม่มีข้อมูล";
+        Address = AddData.Add ?? "ยังไม่มีข้อมูล";
+        editContext = new(AddInfo);
+        System.Console.WriteLine(editContext.Validate());
+
     }
 
     [Parameter]
@@ -279,5 +269,27 @@ else
     }
 
     private AddressInfo AddInfo = new();
+    private AddressInfo AddData = new();
+
+    private EditContext editContext;
+    [Inject]
+    IJSRuntime JS { get; set; }
+    private async Task HandleValidSubmit()
+    {
+        await JS.InvokeAsync<object>("alert", "Successful login!");
+        System.Console.WriteLine(editContext.Validate());
+        if (editContext.Validate())
+        {
+            AddData.Add = AddInfo.Add;
+            AddData.District = AddInfo.District;
+            AddData.Email = AddInfo.Email;
+            AddData.Name = AddInfo.Name;
+            AddData.Provice = AddInfo.Provice;
+            AddData.Subdistrict = AddInfo.Subdistrict;
+            AddData.Tel = AddInfo.Tel;
+            AddData.ZipCode = AddInfo.ZipCode;
+            ModalCancel();
+        }
+    }
 
 }
